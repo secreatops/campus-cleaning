@@ -1,0 +1,1431 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Find | Lost & Found</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --secondary: #eef2ff;
+            --background: #f8fafc;
+            --text: #1e293b;
+            --muted: #64748b;
+            --white: #ffffff;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --danger: #dc2626;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        button, input, select, textarea {
+            font: inherit;
+        }
+
+        button, a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* NAVIGATION */
+
+        header {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: auto;
+            padding: 15px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .logo span {
+            color: var(--text);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-report {
+            background: var(--primary);
+            color: white !important;
+            padding: 10px 16px;
+            border-radius: 8px;
+        }
+
+        /* HERO SECTION */
+
+        .hero {
+            background:
+                radial-gradient(circle at 90% 20%, #6366f1 0, transparent 30%),
+                linear-gradient(120deg, #312e81, #4f46e5 65%, #818cf8);
+            color: white;
+            padding: 76px 24px 65px;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .hero-label {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            padding: 7px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 5vw, 58px);
+            line-height: 1.12;
+            max-width: 700px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #c7d2fe;
+        }
+
+        .hero p {
+            max-width: 650px;
+            color: #e0e7ff;
+            font-size: 17px;
+            margin-bottom: 28px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 9px;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        /* STATISTICS */
+
+        .stats {
+            max-width: 1200px;
+            margin: -25px auto 0;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            position: relative;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 23px;
+            box-shadow: 0 8px 25px rgba(15,23,42,0.04);
+        }
+
+        .stat-number {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        /* MAIN CONTENT */
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 65px 24px;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .section-heading h2 {
+            font-size: 30px;
+            margin-bottom: 5px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--secondary);
+            color: var(--primary-dark);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* SEARCH AND FILTERS */
+
+        .filters {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 12px;
+            background: white;
+            padding: 18px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            margin-bottom: 25px;
+        }
+
+        .filters input,
+        .filters select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            background: white;
+            color: var(--text);
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79,70,229,0.1);
+        }
+
+        /* ITEM CARDS */
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .item-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: 0.2s;
+        }
+
+        .item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(15,23,42,0.08);
+        }
+
+        .item-visual {
+            height: 175px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 72px;
+            background: #eef2ff;
+        }
+
+        .item-card:nth-child(3n + 2) .item-visual {
+            background: #ecfdf5;
+        }
+
+        .item-card:nth-child(3n) .item-visual {
+            background: #fff7ed;
+        }
+
+        .item-content {
+            padding: 20px;
+        }
+
+        .item-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .status {
+            font-size: 11px;
+            font-weight: 800;
+            padding: 5px 9px;
+            border-radius: 20px;
+        }
+
+        .status-lost {
+            color: #b91c1c;
+            background: #fee2e2;
+        }
+
+        .status-found {
+            color: #15803d;
+            background: #dcfce7;
+        }
+
+        .item-content h3 {
+            font-size: 19px;
+            margin-bottom: 7px;
+        }
+
+        .item-description {
+            font-size: 13px;
+            color: var(--muted);
+            min-height: 42px;
+            margin-bottom: 15px;
+        }
+
+        .item-meta {
+            font-size: 12px;
+            color: var(--muted);
+            margin: 7px 0;
+        }
+
+        .item-contact {
+            width: 100%;
+            margin-top: 15px;
+            border: 1px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .item-contact:hover {
+            background: var(--secondary);
+        }
+
+        .empty-state {
+            display: none;
+            text-align: center;
+            padding: 50px 20px;
+            background: white;
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            color: var(--muted);
+        }
+
+        /* HOW IT WORKS */
+
+        .how-section {
+            background: #eef2ff;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            margin-top: 30px;
+        }
+
+        .step-card {
+            background: white;
+            padding: 28px;
+            border-radius: 13px;
+            border: 1px solid #e0e7ff;
+        }
+
+        .step-icon {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            background: var(--secondary);
+            border-radius: 12px;
+            font-size: 24px;
+            margin-bottom: 18px;
+        }
+
+        .step-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .step-card p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* REPORT FORM */
+
+        .report-section {
+            background: white;
+        }
+
+        .report-layout {
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .report-info {
+            background: #eef2ff;
+            padding: 28px;
+            border-radius: 14px;
+        }
+
+        .report-info h3 {
+            font-size: 23px;
+            margin: 15px 0;
+        }
+
+        .report-info p,
+        .report-info li {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .report-info ul {
+            padding-left: 20px;
+            margin-top: 15px;
+        }
+
+        .report-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            background: white;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-note {
+            grid-column: 1 / -1;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .form-message {
+            grid-column: 1 / -1;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .form-message.success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #0f172a;
+            color: white;
+            padding: 35px 24px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        footer p {
+            color: #cbd5e1;
+            font-size: 13px;
+        }
+
+        .footer-brand {
+            font-size: 21px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        /* RESPONSIVE DESIGN */
+
+        @media (max-width: 850px) {
+            .item-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .report-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                flex-wrap: wrap;
+                padding: 14px 18px;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+
+            .nav-links a {
+                font-size: 12px;
+            }
+
+            .hero {
+                padding: 55px 20px;
+            }
+
+            .hero p {
+                font-size: 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                margin-top: 20px;
+            }
+
+            .stat-card {
+                padding: 16px 20px;
+            }
+
+            .stat-number {
+                font-size: 25px;
+            }
+
+            .container {
+                padding: 45px 18px;
+            }
+
+            .section-heading {
+                align-items: start;
+                flex-direction: column;
+            }
+
+            .section-heading h2 {
+                font-size: 26px;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .item-grid,
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .report-form {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full,
+            .form-note,
+            .form-message {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <header>
+        <nav>
+            <a href="#" class="logo">Campus<span>Find.</span></a>
+
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#items">Browse Items</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#report" class="nav-report">+ Report Item</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <span class="hero-label">🎓 Your campus lost & found community</span>
+
+            <h1>Lost something?<br><span>Let's find it together.</span></h1>
+
+            <p>
+                From lost ID cards to forgotten water bottles,
+                CampusFind helps students reconnect with their
+                belongings and make campus life a little easier.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#items" class="btn btn-white">🔍 Find an Item</a>
+                <a href="#report" class="btn btn-outline">＋ Report Lost or Found</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATISTICS -->
+    <section class="stats" aria-label="Website statistics">
+        <div class="stat-card">
+            <div class="stat-number" id="total-count">6</div>
+            <div class="stat-label">Items Listed</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-number" id="lost-count">3</div>
+            <div class="stat-label">Lost Items</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-number" id="found-count">3</div>
+            <div class="stat-label">Found Items</div>
+        </div>
+    </section>
+
+    <!-- BROWSE ITEMS -->
+    <main>
+        <section class="container" id="items">
+            <div class="section-heading">
+                <div>
+                    <span class="badge">CAMPUS DIRECTORY</span>
+                    <h2>Recently Reported Items</h2>
+                    <p>Browse listings and find what belongs to you.</p>
+                </div>
+            </div>
+
+            <!-- SEARCH AND FILTERS -->
+            <div class="filters">
+                <input
+                    type="search"
+                    id="search-input"
+                    placeholder="🔍 Search by item name or location..."
+                    aria-label="Search items"
+                >
+
+                <select id="status-filter" aria-label="Filter by status">
+                    <option value="all">All Items</option>
+                    <option value="lost">Lost Items</option>
+                    <option value="found">Found Items</option>
+                </select>
+
+                <select id="category-filter" aria-label="Filter by category">
+                    <option value="all">All Categories</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Accessories">Accessories</option>
+                    <option value="Documents">Documents</option>
+                    <option value="Bags">Bags</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <!-- ITEM CARDS -->
+            <div class="item-grid" id="item-grid">
+
+                <article class="item-card"
+                    data-name="black backpack"
+                    data-category="Bags"
+                    data-status="lost"
+                    data-location="library">
+
+                    <div class="item-visual">🎒</div>
+
+                    <div class="item-content">
+                        <div class="item-top">
+                            <span class="status status-lost">LOST</span>
+                            <span class="badge">Bags</span>
+                        </div>
+
+                        <h3>Black Backpack</h3>
+
+                        <p class="item-description">
+                            Black backpack with notebooks and stationery.
+                        </p>
+
+                        <p class="item-meta">📍 Library, 2nd Floor</p>
+                        <p class="item-meta">📅 October 24, 2026</p>
+
+                        <button class="item-contact"
+                            onclick="showContact('Black Backpack')">
+                            View Contact Information
+                        </button>
+                    </div>
+                </article>
+
+                <article class="item-card"
+                    data-name="wireless headphones"
+                    data-category="Electronics"
+                    data-status="found"
+                    data-location="cafeteria">
+
+                    <div class="item-visual">🎧</div>
+
+                    <div class="item-content">
+                        <div class="item-top">
+                            <span class="status status-found">FOUND</span>
+                            <span class="badge">Electronics</span>
+                        </div>
+
+                        <h3>Wireless Headphones</h3>
+
+                        <p class="item-description">
+                            A pair of wireless headphones found on a table.
+                        </p>
+
+                        <p class="item-meta">📍 Student Cafeteria</p>
+                        <p class="item-meta">📅 October 25, 2026</p>
+
+                        <button class="item-contact"
+                            onclick="showContact('Wireless Headphones')">
+                            View Contact Information
+                        </button>
+                    </div>
+                </article>
+
+                <article class="item-card"
+                    data-name="student id card"
+                    data-category="Documents"
+                    data-status="lost"
+                    data-location="computer lab">
+
+                    <div class="item-visual">🪪</div>
+
+                    <div class="item-content">
+                        <div class="item-top">
+                            <span class="status status-lost">LOST</span>
+                            <span class="badge">Documents</span>
+                        </div>
+
+                        <h3>Student ID Card</h3>
+
+                        <p class="item-description">
+                            Student ID card misplaced after a lab session.
+                        </p>
+
+                        <p class="item-meta">📍 Computer Lab</p>
+                        <p class="item-meta">📅 October 23, 2026</p>
+
+                        <button class="item-contact"
+                            onclick="showContact('Student ID Card')">
+                            View Contact Information
+                        </button>
+                    </div>
+                </article>
+
+                <article class="item-card"
+                    data-name="blue water bottle"
+                    data-category="Other"
+                    data-status="found"
+                    data-location="sports ground">
+
+                    <div class="item-visual">🧴</div>
+
+                    <div class="item-content">
+                        <div class="item-top">
+                            <span class="status status-found">FOUND</span>
+                            <span class="badge">Other</span>
+                        </div>
+
+                        <h3>Blue Water Bottle</h3>
+
+                        <p class="item-description">
+                            Blue reusable water bottle with a black cap.
+                        </p>
+
+                        <p class="item-meta">📍 Sports Ground</p>
+                        <p class="item-meta">📅 October 26, 2026</p>
+
+                        <button class="item-contact"
+                            onclick="showContact('Blue Water Bottle')">
+                            View Contact Information
+                        </button>
+                    </div>
+                </article>
+
+                <article class="item-card"
+                    data-name="scientific calculator"
+                    data-category="Electronics"
+                    data-status="lost"
+                    data-location="lecture hall">
+
+                    <div class="item-visual">🧮</div>
+
+                    <div class="item-content">
+                        <div class="item-top">
+                            <span class="status status-lost">LOST</span>
+                            <span class="badge">Electronics</span>
+                        </div>
+
+                        <h3>Scientific Calculator</h3>
+
+                        <p class="item-description">
+                            Scientific calculator used during mathematics class.
+                        </p>
+
+                        <p class="item-meta">📍 Lecture Hall 3</p>
+                        <p class="item-meta">📅 October 22, 2026</p>
+
+                        <button class="item-contact"
+                            onclick="showContact('Scientific Calculator')">
+                            View Contact Information
+                        </button>
+                    </div>
+                </article>
+
+                <article class="item-card"
+                    data-name="usb flash drive"
+                    data-category="Electronics"
+                    data-status="found"
+                    data-location="computer lab">
+
+                    <div class="item-visual">💾</div>
+
+                    <div class="item-content">
+                        <div class="item-top">
+                            <span class="status status-found">FOUND</span>
+                            <span class="badge">Electronics</span>
+                        </div>
+
+                        <h3>USB Flash Drive</h3>
+
+                        <p class="item-description">
+                            A USB flash drive found near a computer desk.
+                        </p>
+
+                        <p class="item-meta">📍 Computer Lab</p>
+                        <p class="item-meta">📅 October 25, 2026</p>
+
+                        <button class="item-contact"
+                            onclick="showContact('USB Flash Drive')">
+                            View Contact Information
+                        </button>
+                    </div>
+                </article>
+
+            </div>
+
+            <div class="empty-state" id="empty-state">
+                <h3>🔎 No items found</h3>
+                <p>Try another search term or change your filters.</p>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="how-section" id="how-it-works">
+            <div class="container">
+                <div class="section-heading">
+                    <div>
+                        <span class="badge">SIMPLE & EASY</span>
+                        <h2>How CampusFind Works</h2>
+                        <p>Three simple steps to reconnect with your belongings.</p>
+                    </div>
+                </div>
+
+                <div class="steps">
+                    <div class="step-card">
+                        <div class="step-icon">📝</div>
+                        <h3>01. Report an Item</h3>
+                        <p>
+                            Lost something or found an item?
+                            Submit a report with its name, category,
+                            location, and description.
+                        </p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-icon">🔍</div>
+                        <h3>02. Search Listings</h3>
+                        <p>
+                            Browse reported items and use search
+                            and filters to find matching belongings.
+                        </p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-icon">🤝</div>
+                        <h3>03. Reconnect</h3>
+                        <p>
+                            Contact the person who reported the item
+                            and arrange a safe return on campus.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- REPORT FORM -->
+        <section class="report-section" id="report">
+            <div class="container">
+                <div class="section-heading">
+                    <div>
+                        <span class="badge">HELP YOUR CAMPUS</span>
+                        <h2>Report a Lost or Found Item</h2>
+                        <p>Provide the details below to create a listing.</p>
+                    </div>
+                </div>
+
+                <div class="report-layout">
+
+                    <div class="report-info">
+                        <div style="font-size: 45px;">🎓</div>
+
+                        <h3>Every item deserves a way home.</h3>
+
+                        <p>
+                            Your report can help another student
+                            recover something important. Include
+                            an accurate location and a clear description.
+                        </p>
+
+                        <ul>
+                            <li>Provide the correct item category.</li>
+                            <li>Describe the item's appearance.</li>
+                            <li>Include the place where it was lost or found.</li>
+                            <li>Never publish passwords or sensitive personal details.</li>
+                        </ul>
+                    </div>
+
+                    <form class="report-form" id="report-form">
+
+                        <div class="form-group">
+                            <label for="report-type">Report Type *</label>
+
+                            <select id="report-type" required>
+                                <option value="lost">I lost an item</option>
+                                <option value="found">I found an item</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="item-name">Item Name *</label>
+
+                            <input
+                                type="text"
+                                id="item-name"
+                                placeholder="e.g. Black Backpack"
+                                maxlength="80"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="item-category">Category *</label>
+
+                            <select id="item-category" required>
+                                <option value="">Select category</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Accessories">Accessories</option>
+                                <option value="Documents">Documents</option>
+                                <option value="Bags">Bags</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="item-location">Campus Location *</label>
+
+                            <input
+                                type="text"
+                                id="item-location"
+                                placeholder="e.g. Library, Block A"
+                                maxlength="100"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group full">
+                            <label for="item-description">Description *</label>
+
+                            <textarea
+                                id="item-description"
+                                placeholder="Describe the item and when it was lost or found..."
+                                maxlength="500"
+                                required
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reporter-name">Your Name *</label>
+
+                            <input
+                                type="text"
+                                id="reporter-name"
+                                placeholder="Enter your name"
+                                maxlength="80"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reporter-contact">Contact Email *</label>
+
+                            <input
+                                type="email"
+                                id="reporter-contact"
+                                placeholder="student@example.com"
+                                maxlength="150"
+                                required
+                            >
+                        </div>
+
+                        <p class="form-note">
+                            * Required fields. This demo keeps reports in
+                            this browser only. Contact details are not
+                            sent to a server.
+                        </p>
+
+                        <div class="form-message" id="form-message"
+                            role="status" aria-live="polite"></div>
+
+                        <div class="form-group full">
+                            <button type="submit" class="btn btn-primary">
+                                Submit Report →
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-brand">CampusFind.</div>
+                <p>Helping students find what matters.</p>
+            </div>
+
+            <div>
+                <p>Made for students, by students.</p>
+                <p>© <span id="year"></span> CampusFind. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DEMO ITEM DATA
+        // Sample listings are for demonstration only.
+
+        const sampleItems = [
+            {
+                name: "Black Backpack",
+                category: "Bags",
+                status: "lost",
+                location: "Library, 2nd Floor",
+                description: "Black backpack with notebooks and stationery.",
+                date: "October 24, 2026",
+                emoji: "🎒"
+            },
+            {
+                name: "Wireless Headphones",
+                category: "Electronics",
+                status: "found",
+                location: "Student Cafeteria",
+                description: "A pair of wireless headphones found on a table.",
+                date: "October 25, 2026",
+                emoji: "🎧"
+            },
+            {
+                name: "Student ID Card",
+                category: "Documents",
+                status: "lost",
+                location: "Computer Lab",
+                description: "Student ID card misplaced after a lab session.",
+                date: "October 23, 2026",
+                emoji: "🪪"
+            },
+            {
+                name: "Blue Water Bottle",
+                category: "Other",
+                status: "found",
+                location: "Sports Ground",
+                description: "Blue reusable water bottle with a black cap.",
+                date: "October 26, 2026",
+                emoji: "🧴"
+            },
+            {
+                name: "Scientific Calculator",
+                category: "Electronics",
+                status: "lost",
+                location: "Lecture Hall 3",
+                description: "Scientific calculator used during mathematics class.",
+                date: "October 22, 2026",
+                emoji: "🧮"
+            },
+            {
+                name: "USB Flash Drive",
+                category: "Electronics",
+                status: "found",
+                location: "Computer Lab",
+                description: "A USB flash drive found near a computer desk.",
+                date: "October 25, 2026",
+                emoji: "💾"
+            }
+        ];
+
+        // Store only demo listings and reports created in this browser.
+        // No server or permanent database is connected.
+
+        let userItems = [];
+
+        const grid = document.getElementById("item-grid");
+        const searchInput = document.getElementById("search-input");
+        const statusFilter = document.getElementById("status-filter");
+        const categoryFilter = document.getElementById("category-filter");
+        const emptyState = document.getElementById("empty-state");
+
+        function escapeHTML(value) {
+            return String(value).replace(/[&<>"']/g, function(char) {
+                const entities = {
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#39;"
+                };
+
+                return entities[char];
+            });
+        }
+
+        function allItems() {
+            return [...userItems, ...sampleItems];
+        }
+
+        function updateStats() {
+            const items = allItems();
+
+            document.getElementById("total-count").textContent = items.length;
+
+            document.getElementById("lost-count").textContent =
+                items.filter(item => item.status === "lost").length;
+
+            document.getElementById("found-count").textContent =
+                items.filter(item => item.status === "found").length;
+        }
+
+        function renderItems() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            const selectedStatus = statusFilter.value;
+            const selectedCategory = categoryFilter.value;
+
+            const filteredItems = allItems().filter(item => {
+                const searchableText = [
+                    item.name,
+                    item.category,
+                    item.location,
+                    item.description
+                ].join(" ").toLowerCase();
+
+                const matchesSearch = searchableText.includes(searchTerm);
+
+                const matchesStatus =
+                    selectedStatus === "all" ||
+                    item.status === selectedStatus;
+
+                const matchesCategory =
+                    selectedCategory === "all" ||
+                    item.category === selectedCategory;
+
+                return matchesSearch && matchesStatus && matchesCategory;
+            });
+
+            grid.innerHTML = filteredItems.map((item, index) => `
+                <article class="item-card">
+                    <div class="item-visual">
+                        ${escapeHTML(item.emoji || "📦")}
+                    </div>
+
+                    <div class="item-content">
+                        <div class="item-top">
+                            <span class="status ${
+                                item.status === "lost"
+                                    ? "status-lost"
+                                    : "status-found"
+                            }">
+                                ${item.status.toUpperCase()}
+                            </span>
+
+                            <span class="badge">
+                                ${escapeHTML(item.category)}
+                            </span>
+                        </div>
+
+                        <h3>${escapeHTML(item.name)}</h3>
+
+                        <p class="item-description">
+                            ${escapeHTML(item.description)}
+                        </p>
+
+                        <p class="item-meta">
+                            📍 ${escapeHTML(item.location)}
+                        </p>
+
+                        <p class="item-meta">
+                            📅 ${escapeHTML(item.date)}
+                        </p>
+
+                        <button
+                            class="item-contact"
+                            data-item-index="${index}"
+                            type="button">
+                            View Contact Information
+                        </button>
+                    </div>
+                </article>
+            `).join("");
+
+            emptyState.style.display =
+                filteredItems.length === 0 ? "block" : "none";
+
+            // Map the displayed cards to their corresponding item records.
+            const buttons = grid.querySelectorAll("[data-item-index]");
+
+            buttons.forEach((button, index) => {
+                button.addEventListener("click", () => {
+                    showContact(filteredItems[index]);
+                });
+            });
+
+            updateStats();
+        }
+
+        // Search and filter events
+        searchInput.addEventListener("input", renderItems);
+        statusFilter.addEventListener("change", renderItems);
+        categoryFilter.addEventListener("change", renderItems);
+
+        // Contact action
+        function showContact(item) {
+            const itemName =
+                typeof item === "string" ? item : item.name;
+
+            const record = allItems().find(
+                entry => entry.name === itemName
+            );
+
+            if (record && record.contact) {
+                alert(
+                    "Item: " + record.name +
+                    "\nReporter: " + record.reporter +
+                    "\nContact: " + record.contact +
+                    "\n\nPlease arrange a safe handover on campus."
+                );
+            } else {
+                alert(
+                    "Item: " + itemName +
+                    "\n\nThis is a sample listing. No real contact " +
+                    "information is available.\n\nIn a live website, " +
+                    "this action would connect you with the verified " +
+                    "reporter."
+                );
+            }
+        }
+
+        // REPORT FORM
+        const reportForm = document.getElementById("report-form");
+        const formMessage = document.getElementById("form-message");
+
+        reportForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const status = document.getElementById("report-type").value;
+            const name = document.getElementById("item-name").value.trim();
+            const category = document.getElementById("item-category").value;
+            const location = document.getElementById("item-location").value.trim();
+            const description = document.getElementById("item-description").value.trim();
+            const reporter = document.getElementById("reporter-name").value.trim();
+            const contact = document.getElementById("reporter-contact").value.trim();
+
+            if (!name || !category || !location ||
+                !description || !reporter || !contact) {
+                alert("Please complete all required fields.");
+                return;
+            }
+
+            const newItem = {
+                name: name,
+                category: category,
+                status: status,
+                location: location,
+                description: description,
+                reporter: reporter,
+                contact: contact,
+                date: new Date().toLocaleDateString("en-IN", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                }),
+                emoji: getCategoryEmoji(category)
+            };
+
+            // Add the new report to the current browser session.
+            userItems.unshift(newItem);
+
+            renderItems();
+
+            // Show the newly created listing in the items section.
+            searchInput.value = "";
+            statusFilter.value = "all";
+            categoryFilter.value = "all";
+
+            renderItems();
+
+            formMessage.className = "form-message success";
+            formMessage.textContent =
+                "✓ Your report has been added to this browser session. " +
+                "It is not shared with other students and will be lost " +
+                "when the page is refreshed.";
+
+            reportForm.reset();
+
+            document.getElementById("items").scrollIntoView({
+                behavior: "smooth"
+            });
+        });
+
+        function getCategoryEmoji(category) {
+            const emojis = {
+                "Electronics": "💻",
+                "Accessories": "⌚",
+                "Documents": "🪪",
+                "Bags": "🎒",
+                "Other": "📦"
+            };
+
+            return emojis[category] || "📦";
+        }
+
+        // Current year in footer
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
+
+        // Initial display
+        renderItems();
+    </script>
+
+</body>
+</html>
+```
